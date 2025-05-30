@@ -1,6 +1,11 @@
 ## About
 
-This project aims training and deploying a machine learning model to classify clouds.
+
+## Todos
+
+- [ ] find labels
+- [ ] fix data load
+- [ ] test training
 
 ## Data
 
@@ -27,12 +32,18 @@ data fields:
 
 ### TensorBoard
 
-1. Install `conda install conda-forge::tensorboard`
-2. Visualize training
-If you have tensorboard installed, you can use it for visualizing experiments.
-Run this on your commandline and open your browser to http://localhost:6006/
-`tensorboard --logdir`.
+By default, Lightning automatically uses TensorBoard logger, and stores the logs to a 'lightning_logs/' directory.
+Install `conda install conda-forge::tensorboard`.
+Then run this on your commandline `tensorboard --logdir=lightning_logs/` and and open your browser to http://localhost:6006/.
+By default, Lightning logs every 50 steps. Use Trainer flags to Control Logging Frequency.
 
 ## Ressources
 
 - https://lightning.ai/docs/pytorch/stable/starter/introduction.html
+- https://lightning.ai/docs/pytorch/stable/common/evaluation_basic.html
+- https://lightning.ai/docs/pytorch/stable/common/checkpointing_basic.html
+- https://lightning.ai/docs/pytorch/stable/common/early_stopping.html
+- https://lightning.ai/docs/pytorch/stable/visualize/logging_basic.html
+- https://lightning.ai/docs/pytorch/stable/notebooks/course_UvA-DL/04-inception-resnet-densenet.html
+- https://lightning.ai/docs/pytorch/stable/cli/lightning_cli.html
+- https://www.comet.com/site/
