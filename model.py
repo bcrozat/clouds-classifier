@@ -2,6 +2,8 @@
 import torch.nn as nn
 import torch.optim as optim
 import lightning as L
+import torch
+from torchmetrics import Accuracy
 
 # Parameters
 learning_rate = 1e-3
@@ -12,6 +14,8 @@ class LitCloudNet(L.LightningModule):
     def __init__(self):
         super().__init__()
         self.save_hyperparameters()
+        self.train_acc = Accuracy(task='multiclass', num_classes=num_classes)
+        self.test_acc = Accuracy(task='multiclass', num_classes=num_classes)
         self.feature_extractor = nn.Sequential(
             nn.Conv2d(3, 32, kernel_size=3, padding=1),
             nn.ELU(),
@@ -24,21 +28,25 @@ class LitCloudNet(L.LightningModule):
         self.classifier = nn.Linear(64 * 16 * 16, num_classes)
 
     def training_step(self, batch, batch_idx):
-        x, _ = batch
+        x, y = batch
         x = x.view(x.size(0), -1)
         z = self.feature_extractor(x)
         x_hat = self.classifier(z)
-        loss = nn.BCELoss(x_hat, x) # nn.CrossEntropyLoss() for multi-class classification, nn.BCELoss() for binary classification
-        self.log('train_loss', loss) # Logging to TensorBoard
-        return loss
+        train_loss = nn.BCELoss(x_hat, x) # nn.CrossEntropyLoss() for multi-class classification, nn.BCELoss() for binary classification
+        preds = torch.argmax(x_hat, dim=1)
+        self.train_acc.update(preds, y)
+        self.log_dict({'train_loss': train_loss, 'train_acc': self.train_acc}, prog_bar=True) # Logging to TensorBoard
+        return train_loss
 
     def test_step(self, batch, batch_idx):
-        x, _ = batch
+        x, y = batch
         x = x.view(x.size(0), -1)
         z = self.feature_extractor(x)
         x_hat = self.classifier(z)
         test_loss = nn.BCELoss(x_hat, x)
-        self.log('test_loss', test_loss)
+        preds = torch.argmax(x_hat, dim=1)
+        self.train_acc.update(preds, y)
+        self.log_dict({'test_loss': test_loss, 'train_acc': self.test_acc}, prog_bar=True)
 
     # def validation_step(self, batch, batch_idx):
     #     x, _ = batch
