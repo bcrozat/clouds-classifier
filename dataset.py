@@ -1,6 +1,7 @@
 # Import dependencies
 import matplotlib.pyplot as plt
-from torch.utils.data import DataLoader
+import torch
+from torch.utils.data import DataLoader, random_split
 from torchvision.datasets import ImageFolder
 from torchvision import transforms
 
@@ -20,20 +21,28 @@ test_transforms = transforms.Compose([
 ])
 
 # Load dataset
-dataset_train = ImageFolder(
+train_dataset = ImageFolder(
     root=r'D:\Data\cloud-type-classification2\images\train',
     transform=train_transforms,
 )
 
-dataset_test = ImageFolder(
+test_dataset = ImageFolder(
     root=r'D:\Data\cloud-type-classification2\images\test',
     transform=test_transforms,
 )
 
+# Create validation dataset (20% of the train dataset)
+# train_dataset_size = int(len(train_dataset) * 0.8)
+# val_dataset_size = len(train_dataset) - train_dataset_size
+# seed = torch.Generator().manual_seed(1)
+# train_dataset, val_dataset = random_split(train_dataset, [train_dataset_size, val_dataset_size], generator=seed)
+
 # Load data
-dataloader_train = DataLoader(dataset_train, shuffle=True, batch_size=64)
-dataloader_test = DataLoader(dataset_test, shuffle=True, batch_size=64)
-image, label = next(iter(dataloader_train))
+train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=64)
+test_dataloader = DataLoader(test_dataset, shuffle=True, batch_size=64)
+
+# Check dataset
+image, label = next(iter(train_dataloader))
 print(image.shape)  # torch.Size([1, 3, 128, 128])
 image = image.squeeze().permute(1, 2, 0)
 print(image.shape)  # torch.Size([128, 128, 3])
