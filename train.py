@@ -1,6 +1,6 @@
 # Import dependencies
-from tqdm.auto import tqdm
 from lightning.pytorch.callbacks.early_stopping import EarlyStopping
+from tqdm.auto import tqdm
 import argparse # Allows to provide input parameters (parse arguments) from the command line instead of hardcoding them
 import lightning as L
 import time
@@ -39,7 +39,7 @@ model = LitCloudNet()
 print(f'Model: {model}')
 
 # Train the model (using Lightning)
-trainer = L.Trainer(default_root_dir='checkpoints',
+trainer = L.Trainer(default_root_dir='logs',
                     limit_train_batches=100,
                     max_epochs=1,
                     accelerator='gpu',

@@ -5,6 +5,9 @@ from torch.utils.data import DataLoader, random_split
 from torchvision.datasets import ImageFolder
 from torchvision import transforms
 
+# Print start message
+print('# Loading data...')
+
 # Define transformations
 train_transforms = transforms.Compose([
     # transforms.RandomHorizontalFlip(), # Simulate different viewpoints
@@ -42,12 +45,12 @@ train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=64)
 test_dataloader = DataLoader(test_dataset, shuffle=True, batch_size=64)
 
 # Check dataset
-image, label = next(iter(train_dataloader))
-print(image.shape)  # torch.Size([1, 3, 128, 128])
-image = image.squeeze().permute(1, 2, 0)
-print(image.shape)  # torch.Size([128, 128, 3])
-plt.imshow(image)
-plt.show()
+# image, label = next(iter(train_dataloader))
+# print(image.shape)  # torch.Size([1, 3, 128, 128])
+# image = image.squeeze().permute(1, 2, 0)
+# print(image.shape)  # torch.Size([128, 128, 3])
+# plt.imshow(image)
+# plt.show()
 
-# Indicate end
-print('End.')
+# Print end message
+print('# Data loaded.')
