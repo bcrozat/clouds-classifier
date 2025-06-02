@@ -24,31 +24,31 @@ class LitCloudNet(L.LightningModule):
             nn.MaxPool2d(kernel_size=2),
             nn.Flatten(),
         )
-        self.classifier = nn.Linear(64 * 16 * 16, num_classes)
+        self.classifier = nn.Linear(64 * 32 * 32, num_classes)
         self.criterion = nn.CrossEntropyLoss()
 
     def training_step(self, batch, batch_idx):
         x, y = batch
         x = x.float()
-        z = self.feature_extractor(x)
-        x_hat = self.classifier(z)
-        train_loss = self.criterion(x_hat, x) # nn.CrossEntropyLoss() for multi-class classification, nn.BCELoss() for binary classification
-        train_acc = self.acc()
-        preds = torch.argmax(x_hat, dim=1)
-        train_acc.update(preds, y)
-        self.log_dict({'train_loss': train_loss, 'train_acc': self.train_acc.compute()}, prog_bar=True) # Logging to TensorBoard
+        x = self.feature_extractor(x)
+        x = self.classifier(x)
+        train_loss = self.criterion(x, y) # nn.CrossEntropyLoss() for multi-class classification, nn.BCELoss() for binary classification
+        preds = torch.argmax(x, dim=1)
+        self.acc.update(preds, y)
+        train_acc = self.acc.compute()
+        self.log_dict({'train_loss': train_loss, 'train_acc': train_acc}, prog_bar=True) # Logging to TensorBoard
         return train_loss
 
     def validation_step(self, batch, batch_idx):
         x, y = batch
         x = x.float()
-        z = self.feature_extractor(x)
-        x_hat = self.classifier(z)
-        val_loss = self.criterion(x_hat, x)
-        val_acc = self.acc()
-        preds = torch.argmax(x_hat, dim=1)
-        val_acc.update(preds, y)
-        self.log_dict({'val_loss': val_loss, 'val_acc': self.val_acc.compute()}, prog_bar=True)
+        x = self.feature_extractor(x)
+        x = self.classifier(x)
+        val_loss = self.criterion(x, y)
+        preds = torch.argmax(x, dim=1)
+        self.acc.update(preds, y)
+        val_acc = self.acc.compute()
+        self.log_dict({'val_loss': val_loss, 'val_acc': val_acc}, prog_bar=True)
 
     def configure_optimizers(self):
         optimizer = optim.Adam(self.parameters(), lr=learning_rate)
