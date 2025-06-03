@@ -1,10 +1,11 @@
 ## About
 
+This repository contains a PyTorch Lightning implementation for a cloud classification task.
+The goal is to classify images of clouds into seven different categories using deep learning techniques.
 
 ## Todos
-
-- [ ] find labels
-- [ ] fix data load
+- [x] find labels
+- [x] fix data load
 - [ ] test training
 
 ## Data
@@ -39,6 +40,7 @@ By default, Lightning logs every 50 steps. Use Trainer flags to Control Logging 
 
 ## Ressources
 
+- https://docs.pytorch.org/vision/main/datasets.html
 - https://lightning.ai/docs/pytorch/stable/starter/introduction.html
 - https://lightning.ai/docs/pytorch/stable/common/evaluation_basic.html
 - https://lightning.ai/docs/pytorch/stable/common/checkpointing_basic.html
