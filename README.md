@@ -6,7 +6,17 @@ The goal is to classify images of clouds into seven different categories using d
 ## Todos
 - [x] find labels
 - [x] fix data load
-- [ ] test training
+- [x] test training (pipeline)
+- [ ] improve accuracy / double check validation
+
+## Install
+
+install pytorch with cuda support
+pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu118     
+
+## Run
+
+python train.py --epochs 10 --tag 'test1'
 
 ## Data
 
