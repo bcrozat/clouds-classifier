@@ -24,7 +24,7 @@ class LitCloudNet(L.LightningModule):
             nn.MaxPool2d(kernel_size=2),
             nn.Flatten(),
         )
-        self.classifier = nn.Linear(64 * 16 * 16, num_classes)
+        self.classifier = nn.Linear(64 * 32 * 32, num_classes) # Input is 3x128x128
         self.criterion = nn.CrossEntropyLoss()
 
     def training_step(self, batch, batch_idx):
