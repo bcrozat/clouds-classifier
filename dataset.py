@@ -48,8 +48,8 @@ class CloudDataset(Dataset):
 
 # Load dataset
 train_dataset = CloudDataset(
-    annotations=r'data/cloud-type-classification2/train.csv',
-    root='data/cloud-type-classification2/train',
+    annotations=r'data/train.csv',
+    root='data/train',
     transform=train_transforms
 )
 
@@ -60,13 +60,13 @@ seed = torch.Generator().manual_seed(1)
 train_dataset, val_dataset = random_split(train_dataset, [train_dataset_size, val_dataset_size], generator=seed)
 
 # train_dataset = ImageFolder(
-#     root=r'D:\Data\cloud-type-classification2\images\train',
+#     root=r'data/train',
 #     train=True,
 #     transform=train_transforms
 # )
 
 # test_dataset = ImageFolder(
-#     root=r'D:\Data\cloud-type-classification2\images\test',
+#     root=r'data/test',
 #     train=False,
 #     transform=test_transforms
 # )
