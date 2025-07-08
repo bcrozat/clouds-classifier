@@ -41,9 +41,9 @@ print(f'Model: {model}')
 # Train the model (using Lightning)
 trainer = L.Trainer(default_root_dir='logs',
                     limit_train_batches=100,
-                    max_epochs=1,
-                    accelerator='cpu', # ! Use 'gpu' if not testing
-                    callbacks=[EarlyStopping(monitor='acc_loss', mode='max', patience=3)] # Early stopping after 3 iterations without improvement
+                    max_epochs=5,
+                    accelerator='cuda', # ! Use 'cuda' (gpu) if not testing
+                    callbacks=[EarlyStopping(monitor='val_loss', mode='max', patience=3)] # Early stopping after 3 iterations without improvement (use val_loss or test_loss)
                     )
 trainer.fit(model=model, train_dataloaders=train_dataloader, val_dataloaders=val_dataloader)
 
@@ -54,7 +54,7 @@ print('# Training complete!')
 print('# Validation started!')
 
 # Validate the model
-trainer.validate(model=model, val_dataloaders=val_dataloader)
+trainer.validate(model=model, dataloaders=val_dataloader)
 
 # Print log message
 print('# Testing complete!')
