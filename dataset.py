@@ -48,8 +48,8 @@ class CloudDataset(Dataset):
 
 # Load dataset
 train_dataset = CloudDataset(
-    annotations=r'D:\Data\cloud-type-classification2\train.csv',
-    root=r'D:\Data\cloud-type-classification2\images\train',
+    annotations=r'data/cloud-type-classification2/train.csv',
+    root='data/cloud-type-classification2/train',
     transform=train_transforms
 )
 
